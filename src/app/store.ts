@@ -1,10 +1,14 @@
 'use client';
 import { configureStore } from '@reduxjs/toolkit';
+import dragCreateEventSlice from './schedule/redux/dragCreateEventSlice';
+import editEventSlice from './schedule/redux/editEventSlice';
 import weekEventsSlice from './schedule/redux/weekEventsSlice';
 
 const store = configureStore({
   reducer: {
-    weekEvents: weekEventsSlice, 
+    weekEvents: weekEventsSlice,
+    editEvent: editEventSlice,
+    dragCreateEvent: dragCreateEventSlice,
   },
 });
 

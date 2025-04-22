@@ -11,10 +11,11 @@ export enum WeekDay {
 }
 
 export interface CEvent {
-  id: string;
+  id: number;
   name: string;
   description?: string;
   labels?: string[];
-  day: WeekDay;
-  minute: number;
+  days: WeekDay[];
+  start: number; // start time in minutes from midnight
+  duration: number; // in minutes
 }
