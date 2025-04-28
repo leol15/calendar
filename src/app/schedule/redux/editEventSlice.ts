@@ -19,6 +19,9 @@ const editEventSlice = createSlice({
   initialState,
   reducers: {
     startEditEvent: (state, action: PayloadAction<CEvent>) => {
+      if (state.isEditing) {
+        return;
+      }
       state.isEditing = true;
       state.event = cloneDeep(action.payload);
     },

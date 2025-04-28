@@ -9,9 +9,11 @@ import {
   ToggleButton,
 } from '@cloudscape-design/components';
 import { range } from 'lodash';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { DragCreateEventActions } from '../redux/dragCreateEventSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  DragCreateEventActions,
+  DragCreateEventSelectors,
+} from '../redux/dragCreateEventSlice';
 import { WeekEventActions } from '../redux/weekEventsSlice';
 import { WeekDay } from '../types';
 import { copySavedCalandar, pasteSavedCalandar } from '../utils';
@@ -19,30 +21,16 @@ import DayView from './DayView';
 import './common.css';
 
 export default function WeekView() {
-  const [mouseDown, setMouseDown] = useState(false);
-
-  const [dragEdit, setdragEdit] = useState(false);
-  const toggleDragEdit = () => setdragEdit(!dragEdit);
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (dragEdit) {
-      setMouseDown(true);
-      console.log('mouse down', e.clientY);
-      dispatch(DragCreateEventActions.start());
-    }
-  };
+  const toggleDragEdit = () => dispatch(DragCreateEventActions.toggleEnabled());
+  const dragEditEnabled = useSelector(DragCreateEventSelectors.enabled);
+
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (mouseDown) {
-      console.log('mouse move', e.clientY);
-    }
+    dispatch(DragCreateEventActions.move(e.screenY));
   };
-  const handleMouseUp = (e: React.MouseEvent) => {
-    if (mouseDown) {
-      setMouseDown(false);
-      console.log('mouse up', e.clientY);
-    }
+  const handleMouseUp = () => {
+    dispatch(DragCreateEventActions.end());
   };
 
   const pasteCalandar = async () => {
@@ -58,7 +46,7 @@ export default function WeekView() {
         <h3>Calandar</h3>
         <ToggleButton
           onChange={toggleDragEdit}
-          pressed={dragEdit}
+          pressed={dragEditEnabled}
           iconName="lock-private"
           pressedIconName="unlocked"
         >
@@ -96,9 +84,8 @@ export default function WeekView() {
         </Popover>
       </SpaceBetween>
       <div
-        style={{ cursor: dragEdit ? 'crosshair' : '' }}
+        style={{ cursor: dragEditEnabled ? 'crosshair' : '' }}
         className="week-container"
-        onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
       >

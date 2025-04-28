@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "NODE_ENV=production npm run build && gh-pages -d out"
+    "deploy": "NODE_ENV=production npm run build && touch out/.nojekyll && gh-pages -d out"
   },
   "dependencies": {
     "@cloudscape-design/chat-components": "^1.0.37",

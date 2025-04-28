@@ -91,6 +91,7 @@ const createEvent =
       duration: 60,
     };
     const newEvent: CEvent = merge({}, defaultEvent, event, { id });
+    console.log('leoooo createEvent', event, newEvent);
     dispatch(upsertEvent(newEvent));
     return newEvent;
   };

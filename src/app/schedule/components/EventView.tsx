@@ -12,9 +12,10 @@ interface EventViewProps {
 export const EventView: React.FC<EventViewProps> = ({ event }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const eventClicked = () => {
+  const eventClicked = (e: React.MouseEvent<HTMLDivElement>) => {
     console.log('event clicked', event.id);
     dispatch(EditEventActions.startEditEvent(event.id));
+    e.stopPropagation();
   };
 
   const bgColor = [...stringToRgb(event.name), EVENT_COLOR_ALPHA];

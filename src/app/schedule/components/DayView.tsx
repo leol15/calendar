@@ -1,7 +1,9 @@
 'use client';
 import { RootState } from '@/app/store';
+import { range } from 'lodash';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { DragCreateEventActions } from '../redux/dragCreateEventSlice';
 import { WeekEventSelectors } from '../redux/weekEventsSlice';
 import { CEvent, WeekDay } from '../types';
 import { EventView } from './EventView';
@@ -9,11 +11,6 @@ import { EventView } from './EventView';
 interface WeekDayProps {
   day: WeekDay;
 }
-
-const HOURS = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  22, 23,
-];
 
 const DayView: React.FC<WeekDayProps> = ({ day }) => {
   // get the events for the day
@@ -25,10 +22,28 @@ const DayView: React.FC<WeekDayProps> = ({ day }) => {
     const height = event.duration / (24 * 60);
     return { top: `${top * 100}%`, height: `${height * 100}%` };
   };
+
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!containerRef.current?.clientHeight) {
+      return;
+    }
+    dispatch(
+      DragCreateEventActions.start(
+        day,
+        containerRef.current?.getBoundingClientRect().top,
+        containerRef.current?.clientHeight,
+        e.clientY,
+        e.screenY
+      )
+    );
+  };
   return (
-    <div className="day">
-      <div className="hour-container">
-        {HOURS.map((hour, i) => (
+    <div className="day" onMouseDown={handleMouseDown}>
+      <div className="hour-container" ref={containerRef}>
+        {range(24).map((hour, i) => (
           <div key={i} className="hour">
             <span>{hour}</span>
           </div>

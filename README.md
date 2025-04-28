@@ -1,4 +1,4 @@
 ## TODO
 
-- drag to create event
+- drag up to create event
 - right now time mark
