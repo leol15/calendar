@@ -27,11 +27,10 @@ const DayView: React.FC<WeekDayProps> = ({ day }) => {
   };
   return (
     <div className="day">
-      {day}
       <div className="hour-container">
         {HOURS.map((hour, i) => (
           <div key={i} className="hour">
-            {hour}
+            <span>{hour}</span>
           </div>
         ))}
         {events.map((event, i) => (

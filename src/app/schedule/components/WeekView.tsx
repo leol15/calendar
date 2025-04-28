@@ -8,6 +8,7 @@ import {
   StatusIndicator,
   ToggleButton,
 } from '@cloudscape-design/components';
+import { range } from 'lodash';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DragCreateEventActions } from '../redux/dragCreateEventSlice';
@@ -101,6 +102,13 @@ export default function WeekView() {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
       >
+        <div className="left-hour-marker">
+          {range(24).map((hour) => (
+            <div key={hour} className="hour-marker">
+              {hour}:00
+            </div>
+          ))}
+        </div>
         {Object.values(WeekDay).map((day, i) => (
           <DayView key={i} day={day}></DayView>
         ))}

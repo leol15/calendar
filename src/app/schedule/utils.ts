@@ -74,6 +74,7 @@ export const toRgbString = (rgb: number[]): string => {
 
 export const TimeUtils = {
   toString: (time: number) => {
+    time = time % (24 * 60); // Ensure time is within a day
     const hours = Math.floor(time / 60);
     const minutes = time % 60;
     const paddedHours = String(hours).padStart(2, '0');

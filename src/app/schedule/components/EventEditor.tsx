@@ -138,14 +138,24 @@ export const EventEditor: React.FC<EventEditorProps> = () => {
               </SpaceBetween>
             </div>
           </FormField>
-          <SpaceBetween direction="horizontal" size="l">
-            <FormField label="Start time">
+          <SpaceBetween direction="horizontal" size="xs">
+            <FormField label="Start time" stretch={false}>
               <TimeInput
                 onChange={({ detail }) => {
                   setStartTime(detail.value);
                   updateEvent({ start: TimeUtils.fromString(detail.value) });
                 }}
                 value={startTime}
+                format="hh:mm"
+                placeholder="hh:mm"
+              />
+            </FormField>
+            <FormField label="End time">
+              <TimeInput
+                disabled
+                value={TimeUtils.toString(
+                  TimeUtils.fromString(startTime) + event.duration
+                )}
                 format="hh:mm"
                 placeholder="hh:mm"
               />

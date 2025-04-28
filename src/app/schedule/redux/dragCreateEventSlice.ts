@@ -22,7 +22,6 @@ const dragCreateEventSlice = createSlice({
       state.inprograss = true;
       state.event = cloneDeep(action.payload);
     },
-    updateEvent: (state, action: PayloadAction<CEvent>) => {},
     endEditEvent: (state) => {
       state.inprograss = false;
       state.event = null;

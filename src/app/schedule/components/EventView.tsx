@@ -1,5 +1,6 @@
 import { AppDispatch } from '@/app/store';
 import { useDispatch } from 'react-redux';
+import { EVENT_COLOR_ALPHA } from '../constants';
 import { EditEventActions } from '../redux/editEventSlice';
 import { CEvent } from '../types';
 import { getContrastColor, stringToRgb, toRgbString } from '../utils';
@@ -16,7 +17,7 @@ export const EventView: React.FC<EventViewProps> = ({ event }) => {
     dispatch(EditEventActions.startEditEvent(event.id));
   };
 
-  const bgColor = [...stringToRgb(event.name), 0.7];
+  const bgColor = [...stringToRgb(event.name), EVENT_COLOR_ALPHA];
   const fgColor = getContrastColor(bgColor);
   return (
     <div
@@ -34,6 +35,7 @@ export const EventView: React.FC<EventViewProps> = ({ event }) => {
       >
         {event.name}
       </p>
+      <p>{event.description}</p>
     </div>
   );
 };

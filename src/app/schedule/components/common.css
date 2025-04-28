@@ -4,6 +4,7 @@
   margin: auto;
   width: 80%;
   font-size: 0.5rem;
+  margin: 10px auto;
 }
 
 .day {
@@ -25,23 +26,32 @@
   letter-spacing: -1px;
   font-weight: 100;
   user-select: none;
-  opacity: 0;
+  position: relative;
+  border-top: 1px solid black;
+  border-left: 1px solid rgb(211, 211, 211);
 }
 
 .hour:hover {
   background-color: #f0f0f0;
+}
+
+.hour span {
+  opacity: 0;
+}
+
+.hour:hover span {
   opacity: 1;
 }
 
 .event-position-container {
   position: absolute;
   top: 0;
-  left: 10px;
-  width: calc(100% - 10px);
+  left: 15px;
+  width: calc(100% - 15px - 1px);
 }
 
 .event {
-  border: 1px solid black;
+  /* border: 1px solid rgb(109, 109, 109); */
   border-radius: 3px;
   height: 100%;
   overflow: hidden;
@@ -49,6 +59,7 @@
 }
 
 .event-name {
+  padding-left: 2px;
   font-weight: bold;
   text-overflow: ellipsis;
   border-bottom: 1px solid black;
@@ -57,7 +68,19 @@
 }
 
 .event:hover {
-  background-color: rgb(188, 25, 25);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+}
+
+.left-hour-marker {
+}
+
+.hour-marker {
+  text-align: end;
+  padding-right: 5px;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% / 24);
+  border-top: 1px solid black;
 }

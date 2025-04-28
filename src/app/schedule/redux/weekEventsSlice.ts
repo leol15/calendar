@@ -6,26 +6,26 @@ import { merge, omit } from 'lodash';
 import { CEvent, WeekDay } from '../types';
 import { loadEventsFromLocalStorage, saveEventsToLocalStorage } from '../utils';
 
-const DEFAULT_EVENTS: Record<number, CEvent> = {
-  1: {
-    id: 1,
-    name: 'Meeting with Bob',
-    description: 'Discuss project updates',
-    labels: ['work'],
-    days: [WeekDay.Monday],
-    start: 9 * 60,
-    duration: 60,
-  },
-  2: {
-    id: 2,
-    name: 'Gym Session',
-    description: 'Leg day workout',
-    labels: ['health'],
-    days: [WeekDay.Wednesday],
-    start: 12 * 60,
-    duration: 30,
-  },
-};
+// const DEFAULT_EVENTS: Record<number, CEvent> = {
+//   1: {
+//     id: 1,
+//     name: 'Meeting with Bob',
+//     description: 'Discuss project updates',
+//     labels: ['work'],
+//     days: [WeekDay.Monday],
+//     start: 9 * 60,
+//     duration: 60,
+//   },
+//   2: {
+//     id: 2,
+//     name: 'Gym Session',
+//     description: 'Leg day workout',
+//     labels: ['health'],
+//     days: [WeekDay.Wednesday],
+//     start: 12 * 60,
+//     duration: 30,
+//   },
+// };
 
 interface WeekEventsState {
   eventsById: Record<string, CEvent>;
@@ -33,8 +33,8 @@ interface WeekEventsState {
 }
 
 const initialState: WeekEventsState = {
-  eventsById: { ...DEFAULT_EVENTS },
-  ids: Object.keys(DEFAULT_EVENTS).map(Number).sort(),
+  eventsById: {},
+  ids: [],
 };
 
 const weekEventsSlice = createSlice({
@@ -45,7 +45,7 @@ const weekEventsSlice = createSlice({
       state.eventsById[action.payload.id] = action.payload;
       if (!state.ids.includes(action.payload.id)) {
         state.ids.push(action.payload.id);
-        state.ids.sort();
+        state.ids.sort((a, b) => a - b);
       }
       saveEventsToLocalStorage(Object.values(state.eventsById));
     },
@@ -67,7 +67,7 @@ const weekEventsSlice = createSlice({
         state.eventsById[event.id] = event;
         state.ids.push(event.id);
       });
-      state.ids.sort();
+      state.ids.sort((a, b) => a - b);
     },
   },
 });
