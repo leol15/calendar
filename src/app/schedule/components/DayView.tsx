@@ -44,7 +44,7 @@ const DayView: React.FC<WeekDayProps> = ({ day }) => {
   };
 
   // time marker
-  const shouldRenderTimeMarker = DAYS[new Date().getDay()] === day;
+  const shouldRenderTimeMarker = DAYS[new Date().getDay() - 1] === day;
   const markerRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
