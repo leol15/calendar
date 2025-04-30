@@ -12,6 +12,7 @@
   /* background-color: rebeccapurple; */
   /* outline: 1px solid red; */
   width: calc(100% / 7);
+  position: relative;
 }
 
 .hour-container {
@@ -41,6 +42,20 @@
 
 .hour:hover span {
   opacity: 1;
+}
+
+.time-marker {
+  position: absolute;
+  top: 0;
+  left: -5px;
+  transform: translateY(-50%);
+  width: calc(100% + 10px);
+  height: 6px;
+  background-color: rgb(0, 0, 0, 0);
+  border-radius: 10px;
+  z-index: -1;
+  transition: background-color 1s ease;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
 }
 
 .event-position-container {

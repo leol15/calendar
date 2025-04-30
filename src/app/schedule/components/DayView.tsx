@@ -1,11 +1,13 @@
 'use client';
 import { RootState } from '@/app/store';
 import { range } from 'lodash';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { DAYS } from '../constants';
 import { DragCreateEventActions } from '../redux/dragCreateEventSlice';
 import { WeekEventSelectors } from '../redux/weekEventsSlice';
 import { CEvent, WeekDay } from '../types';
+import { randomColor } from '../utils';
 import { EventView } from './EventView';
 
 interface WeekDayProps {
@@ -40,6 +42,31 @@ const DayView: React.FC<WeekDayProps> = ({ day }) => {
       )
     );
   };
+
+  // time marker
+  const shouldRenderTimeMarker = DAYS[new Date().getDay()] === day;
+  const markerRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!shouldRenderTimeMarker) {
+      return;
+    }
+    const setTime = () => {
+      const hour = new Date().getHours();
+      const minutes = new Date().getMinutes();
+      const top = ((hour * 60 + minutes) / (24 * 60)) * 100;
+      if (markerRef.current) {
+        markerRef.current.style.top = `${top}%`;
+        const [r, g, b] = randomColor();
+        markerRef.current.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      }
+    };
+    const interval = setInterval(setTime, 1000);
+    setTime();
+
+    return () => clearInterval(interval);
+  }, [shouldRenderTimeMarker]);
+
   return (
     <div className="day" onMouseDown={handleMouseDown}>
       <div className="hour-container" ref={containerRef}>
@@ -58,6 +85,9 @@ const DayView: React.FC<WeekDayProps> = ({ day }) => {
           </div>
         ))}
       </div>
+      {shouldRenderTimeMarker && (
+        <div className="time-marker" ref={markerRef}></div>
+      )}
     </div>
   );
 };

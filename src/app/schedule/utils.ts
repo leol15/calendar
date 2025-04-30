@@ -130,3 +130,15 @@ export const pasteSavedCalandar = async () => {
     console.error('Error pasting events:', error);
   }
 };
+
+export const randomColor = (): [number, number, number] => {
+  // make sure the color is not too dark
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+  if (brightness < 120) {
+    return randomColor();
+  }
+  return [r, g, b];
+};
